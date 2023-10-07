@@ -1,0 +1,46 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'webhook-httpd'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=webhook-httpd",
+                    "--package=webhook-httpd"//,
+				//	"--features=static-openssl"
+                ],
+                "filter": {
+                    "name": "webhook-httpd",
+                    "kind": "bin"
+                }
+            },
+            "args": ["--config" ,"example-config.yaml"],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'webhook-httpd'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=webhook-httpd",
+                    "--package=webhook-httpd"
+                ],
+                "filter": {
+                    "name": "webhook-httpd",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
