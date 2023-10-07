@@ -29,6 +29,22 @@ hooks:
     commands:
       - cmd: ["cmd.exe","/c","cd"]
 
+  - url: "/flipped"
+    commands:
+      - cmd: ["cmd.exe","/c","cat -B  img.jpg  | sic.exe -f png --flip-vertical"]
+        stdin: request-body
+        has_response: true
+
+  - url: "/passthru"
+    commands:
+      - cmd: ["cmd.exe","/c","passthru.cmd"]
+        stdin: request-body
+        has_response: true
+
+    environment:
+      OUTPUT_FOLDER: uploads
+      PREFIX_TIMESTAMP: 1
+
   # A hook that handles file uploads from a multipart/form-data request.
   # You need to run `cargo build --examples` for this hook to work.
   - url: "/multipart-stdin"
