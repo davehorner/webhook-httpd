@@ -22,6 +22,7 @@ use scheduler::Scheduler;
 use tls_acceptor::TlsAcceptor;
 
 use hyper::{server::conn::Http, Body, StatusCode};
+use hyper::{header::HeaderValue, header::ACCESS_CONTROL_ALLOW_ORIGIN};
 type Request = hyper::Request<Body>;
 type Response = hyper::Response<Body>;
 
@@ -410,7 +411,16 @@ fn simple_response(status: StatusCode, data: impl Into<Vec<u8>>) -> Response {
 	if data.last() != Some(&b'\n') {
 		data.push(b'\n');
 	}
-	hyper::Response::builder().status(status).body(data.into()).unwrap()
+    let response_body = Body::from(data);
+    let mut response = hyper::Response::builder()
+	   .status(status)
+	   .body(response_body)
+	   .unwrap();
+    response.headers_mut().insert(
+	   ACCESS_CONTROL_ALLOW_ORIGIN,
+	   HeaderValue::from_static("*"),
+    );
+    response
 }
 
 fn generic_error() -> Response {
